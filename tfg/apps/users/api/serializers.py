@@ -64,6 +64,7 @@ class ModelSerializer(serializers.ModelSerializer):
                   'model_name',
                   'new_model_file_path',
                   'fitted_model_file_path',
+                  'params',
                   'created_at',
                   'updated_at',
                   "created_by"
@@ -157,3 +158,43 @@ class UserRolSerializer(serializers.ModelSerializer):
     class Meta:
         model = MlrModel
         fields = ('id', 'name', 'type_user')
+
+
+SAMPLING_STRATEGY_CHOICES = (
+    ('NONE', None),
+)
+
+class ExecutionSerializer(serializers.Serializer):
+    model_path=serializers.CharField(max_length=300)
+    _matrix_name=serializers.CharField(max_length=100)
+    _class_name=serializers.CharField(max_length=100)
+    _train_matrix_path=serializers.CharField(max_length=100)
+    _result_path=serializers.CharField(max_length=100)
+    _test_size=serializers.FloatField()
+    _random_state=serializers.IntegerField()
+    #_sampling_strategy=serializers.ChoiceField(choices=SAMPLING_STRATEGY_CHOICES)
+    _sampling_strategy=serializers.CharField(default=None)
+    _features=serializers.CharField(max_length=900)
+
+
+
+KERNEL_CHOICES =( 
+    ("","-------------"),  
+    ("linear", "linear"),
+    ("poly", "poly"),
+    ("rbf", "rbf"),
+    ("sigmoid", "sigmoid"),
+    ("precomputed", "precomputed"),
+)
+class MlrSVCModel(serializers.Serializer):
+    model_name = serializers.CharField(required=True,initial='SVC')
+    new_model_file_path = serializers.CharField(max_length=500)
+    fitted_model_file_path = serializers.CharField(max_length=500)
+    c=serializers.FloatField()
+    kernel=serializers.ChoiceField(label="kernel",required=False,choices=KERNEL_CHOICES)
+    degree=serializers.IntegerField(label="degree",required=False)
+    random_state=serializers.IntegerField(label="random_state",required=False)
+    #created_at = serializers.DateTimeField(auto_now_add=True)
+    #updated_at = serializers.DateTimeField(auto_now_add=True)
+    #created_by = serializers.ForeignKey(User, on_delete=serializers.CASCADE)
+

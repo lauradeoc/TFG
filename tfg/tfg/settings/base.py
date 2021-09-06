@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'simple_history',
     'apps.users',
+    #'models_creator',
+    #'models-surveying',
 ]
 
 

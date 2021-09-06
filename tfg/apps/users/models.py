@@ -98,6 +98,7 @@ class MlrModel(models.Model):
     model_name = models.CharField(max_length=50, choices=MODEL_CHOICES)
     new_model_file_path = models.CharField(max_length=500)
     fitted_model_file_path = models.CharField(max_length=500)
+    params=models.CharField(max_length=2000,default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -110,11 +111,14 @@ class MlrModel(models.Model):
     def __str__(self):
         return self.model_name
 
+
+        
+
 # PARAMETROS
 class MlrParams(models.Model):
 
     name = models.CharField(max_length=30)
-    value = models.FloatField()
+    value = models.CharField(max_length=30,null=True,blank=True)
     mlr_model = models.ForeignKey(MlrModel, on_delete=models.CASCADE)
 
     class Meta:
@@ -186,3 +190,16 @@ class MlrResult(models.Model):
 
     class Meta:
         ordering = ['name']
+
+
+
+"""class ModelExecution(models.Model):
+    model_path=models.CharField(max_length=300)
+    _matrix_name=models.CharField(max_length=100)
+    _class_name=models.CharField(max_length=100)
+    _train_matrix_path=models.CharField(max_length=100)
+    _result_path=models.CharField(max_length=100)
+    _test_size=models.FloatField()
+    _random_state=models.IntegerField()
+    _sampling_strategy=models.CharField(max_length=100)
+    _features=models.CharField(max_length=100)"""
